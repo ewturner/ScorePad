@@ -20,7 +20,7 @@
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/add_item"
             android:id="@+id/add_game_button"/>
     </LinearLayout>
@@ -39,7 +39,7 @@
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/add_item"
             android:id="@+id/add_player_button"/>
     </LinearLayout>
@@ -47,7 +47,7 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="185dp"
-        android:id="@+id/listView"
+        android:id="@+id/player_listView"
         android:layout_weight="1"/>
 
     <Button

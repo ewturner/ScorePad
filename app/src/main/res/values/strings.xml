@@ -2,7 +2,10 @@
 <resources>
 
     <string name="app_name">ScorePad</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="new_game">New Game</string>
+    <string name="continue_game">Continue</string>
+    <string name="high_scores">High Scores</string>
+    <string name="main_menu_header">Main Menu</string>
     <string name="action_settings">Settings</string>
 
 </resources>

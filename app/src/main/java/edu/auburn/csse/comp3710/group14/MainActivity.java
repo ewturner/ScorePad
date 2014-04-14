@@ -9,12 +9,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements MainMenuFragment.MainMenuHost {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+    }
+
+    @Override
+    public void createNewGame() {
+
+    }
+
+    @Override
+    public void continueGame() {
+
+    }
+
+    @Override
+    public void viewHighScores() {
+
     }
 }

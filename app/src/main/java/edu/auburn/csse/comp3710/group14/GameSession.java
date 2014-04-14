@@ -7,23 +7,38 @@ package edu.auburn.csse.comp3710.group14;
 import java.util.Date;
 
 public class GameSession {
+    private long id;
     private Date startTime;
     private Date endTime;
 
-    public GameSession(){
-        startTime = new Date();
-        endTime = null;
+    public long getId(){
+        return id;
     }
 
-    public void endGame(){
-        endTime = new Date();
+    public void setId(long id){
+        this.id = id;
     }
 
     public Date getStartTime(){
         return startTime;
     }
 
+    public void setStartTime(Date time){
+        startTime = time;
+    }
+
     public Date getEndTime(){
         return  endTime;
     }
+
+    public void setEndTime(Date time){
+        endTime = time;
+    }
+
+    public String toString(){
+        return "GameSession " + id + "-- Started: " + startTime
+                + ", Ended: " + endTime;
+    }
+
+
 }

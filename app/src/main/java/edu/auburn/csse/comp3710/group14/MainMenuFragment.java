@@ -59,6 +59,8 @@ public class MainMenuFragment extends Fragment {
                 mCallback.viewHighScores();
             }
         });
+
+        return v;
     }
 
     @Override

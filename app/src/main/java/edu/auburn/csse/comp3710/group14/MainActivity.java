@@ -16,11 +16,22 @@ public class MainActivity extends FragmentActivity implements MainMenuFragment.M
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+
+        if (fragment == null) {
+            fragment = new MainMenuFragment();
+            fm.beginTransaction().add(R.id.fragment_container, fragment).commit();
+        }
     }
 
     @Override
     public void createNewGame() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = new NewGameFragment();
 
+        fm.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

@@ -18,7 +18,7 @@ public class NewPlayerDialogFragment extends DialogFragment {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 
         builder.setView(layoutInflater.inflate(R.layout.dialog_add_player, null))
-                .setPositiveButton(R.string.add_game, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.add_player, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Add the game

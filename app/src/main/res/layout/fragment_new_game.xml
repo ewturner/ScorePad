@@ -15,14 +15,14 @@
         <Spinner
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner"
+            android:id="@+id/game_spinner"
             android:layout_weight="1"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/add_item"
-            android:id="@+id/button"/>
+            android:id="@+id/add_game_button"/>
     </LinearLayout>
 
     <LinearLayout
@@ -34,14 +34,14 @@
         <Spinner
             android:layout_width="295dp"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner2"
+            android:id="@+id/player_spinner"
             android:layout_weight="1"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/add_item"
-            android:id="@+id/button2"/>
+            android:id="@+id/add_player_button"/>
     </LinearLayout>
 
     <ListView
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/start_game"
-        android:id="@+id/button3"
+        android:id="@+id/start_game_button"
         android:layout_gravity="bottom"
         />
 

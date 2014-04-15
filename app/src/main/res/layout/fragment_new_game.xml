@@ -21,7 +21,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_item"
+            android:text="@string/add"
             android:id="@+id/add_game_button"/>
     </LinearLayout>
 
@@ -40,7 +40,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_item"
+            android:text="@string/add"
             android:id="@+id/add_player_button"/>
     </LinearLayout>
 

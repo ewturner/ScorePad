@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/player_color_swatch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minEms="3"
+        android:lines="1"
+        android:layout_alignEnd="@+id/list_player_name"/>
+
+    <TextView
+        android:id="@+id/list_player_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        />
+
+    <Button
+        android:id="@+id/increase_player_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/add"
+        />
+
+    <TextView
+        android:id="@+id/current_player_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minEms="3"
+        android:layout_toLeftOf="@id/increase_player_score"
+        />
+
+    <Button
+        android:id="@+id/decrease_player_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/current_player_score"
+        android:text="@string/subtract"
+        />
+
+</RelativeLayout>

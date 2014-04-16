@@ -1,5 +1,7 @@
 package edu.auburn.csse.comp3710.group14;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
@@ -100,5 +102,39 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TABLE_PLAYER_COLOR + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
             COLUMN_PLAYER_ID + " INTEGER," + COLUMN_COLOR_ID + " INTEGER";
 
+    public DatabaseHelper(Context context){
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db){
+        //create all tables
+        db.execSQL(CREATE_TABLE_GAMESESSION);
+        db.execSQL(CREATE_TABLE_GAME);
+        db.execSQL(CREATE_TABLE_GAMESESSION_GAME);
+        db.execSQL(CREATE_TABLE_PLAYER);
+        db.execSQL(CREATE_TABLE_GAMESESSION_PLAYER);
+        db.execSQL(CREATE_TABLE_SCORE);
+        db.execSQL(CREATE_TABLE_PLAYER_SCORE);
+        db.execSQL(CREATE_TABLE_COLOR);
+        db.execSQL(CREATE_TABLE_PLAYER_COLOR);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int NewVersion){
+        //on upgrade, drop older tables
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAMESESSION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAMESESSION_GAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAMESESSION_PLAYER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCORE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYER_SCORE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLOR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYER_COLOR);
+
+        //create new tables
+        onCreate(db);
+    }
 
 }

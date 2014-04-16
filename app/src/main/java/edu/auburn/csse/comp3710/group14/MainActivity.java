@@ -46,6 +46,13 @@ public class MainActivity extends FragmentActivity implements MainMenuFragment.M
 
     @Override
     public void viewHighScores() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = new HighScoresFragment();
+
+        fm.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
 
     }
 }

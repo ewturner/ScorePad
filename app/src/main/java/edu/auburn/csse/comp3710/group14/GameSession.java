@@ -6,8 +6,8 @@ package edu.auburn.csse.comp3710.group14;
 
 public class GameSession {
     int id;
-    String startTime;
-    String endTime;
+    String start_time;
+    String end_time;
 
     public GameSession(){
     }
@@ -22,11 +22,11 @@ public class GameSession {
     }
 
     public void setStartTime(String startTime){
-        this.startTime = startTime;
+        this.start_time = startTime;
     }
 
     public void setEndTime(String endTime){
-        this.endTime = endTime;
+        this.end_time = endTime;
     }
 
     //getters
@@ -35,11 +35,11 @@ public class GameSession {
     }
 
     public String getStartTime(){
-        return this.startTime;
+        return this.start_time;
     }
 
     public String getEndTime(){
-        return this.endTime;
+        return this.end_time;
     }
 
 

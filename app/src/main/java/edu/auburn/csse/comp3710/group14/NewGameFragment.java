@@ -34,6 +34,12 @@ public class NewGameFragment extends ListFragment {
     private ListView mPlayerListView;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mGames = new ArrayList<Game>();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_new_game, parent, false);
 

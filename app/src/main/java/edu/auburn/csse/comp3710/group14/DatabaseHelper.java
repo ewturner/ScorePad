@@ -66,6 +66,39 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             COLUMN_NAME + " TEXT)";
 
     //gamesession_games table create statement
+    public static final String CREATE_TABLE_GAMESESSION_GAME = "CREATE TABLE " +
+            TABLE_GAMESESSION_GAME + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
+            COLUMN_GAMESESSION_ID + " INTEGER, " + COLUMN_GAME_ID + " INTEGER)";
+
+    //players table create statement
+    public static final String CREATE_TABLE_PLAYER = "CREATE TABLE " +
+            TABLE_PLAYER + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
+            COLUMN_NAME + " TEXT)";
+
+    //gamesession_players create statement
+    public static final String CREATE_TABLE_GAMESESSION_PLAYER = "CREATE TABLE " +
+            TABLE_GAMESESSION_PLAYER + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
+            COLUMN_GAMESESSION_ID + " INTEGER," + COLUMN_PLAYER_ID + " INTEGER)";
+
+    //scores table create statment
+    public static final String CREATE_TABLE_SCORE = "CREATE TABLE " +
+            TABLE_SCORE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
+            COLUMN_SCORE + " INTEGER";
+
+    //player_scores table create statement
+    public static final String CREATE_TABLE_PLAYER_SCORE = "CREATE TABLE " +
+            TABLE_PLAYER_SCORE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
+            COLUMN_PLAYER_ID + " INTEGER," + COLUMN_SCORE_ID + " INTEGER)";
+
+    //colors table create statement
+    public static final String CREATE_TABLE_COLOR = "CREATE TABLE " +
+            TABLE_COLOR + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
+            COLUMN_COLOR + " INTEGER)";
+
+    //player_colors table create statement
+    public static final String CREATE_TABLE_PLAYER_COLOR = "CREATE TABLE " +
+            TABLE_PLAYER_COLOR + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
+            COLUMN_PLAYER_ID + " INTEGER," + COLUMN_COLOR_ID + " INTEGER";
 
 
 }

@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 /**
@@ -75,8 +73,9 @@ public class PlayerListFragment extends ListFragment {
             TextView playerNameTextView = (TextView) convertView.findViewById(R.id.player_name);
             playerNameTextView.setText(p.getName());
 
+            Score scoreTest = new Score(0);
             TextView playerScoreTextView = (TextView) convertView.findViewById(R.id.current_player_score);
-            playerScoreTextView.setText(p.getPlayerScore().toString());
+            playerScoreTextView.setText(scoreTest.getScore());
             // set score to player's color
             playerScoreTextView.setBackgroundColor(0);
 

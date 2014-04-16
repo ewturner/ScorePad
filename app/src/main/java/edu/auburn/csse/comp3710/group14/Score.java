@@ -4,40 +4,35 @@ package edu.auburn.csse.comp3710.group14;
  * Created by BenKnowles on 4/14/14.
  */
 public class Score {
-    private int score;
-    private int rank;
+    int id;
+    int score;
 
-    public Score(){
-        score = 0;
-        rank = 0;
+    public Score(){}
+
+    public Score(int score){
+        this.score = score;
     }
 
-    public int resetScore(){
-        score = 0;
-        return score;
+    public Score(int id, int score){
+        this.id = id;
+        this.score = score;
     }
 
-    public int updateScore(int amount){
-        score += amount;
-        updateRank();
-        return score;
+    //setters
+    public void setId(int id){
+        this.id = id;
     }
 
-    public void updateRank(){
-        //scan database for other score objects associated with
-        //this game session
-
-
-        //update the rank of each to match the updated score
-
-        //reorder list
-
+    public void setScore(int score){
+        this.score = score;
     }
 
-    public int getRank(){
-        return rank;
+    //getters
+    public int getId(){
+        return this.id;
     }
 
-
-
+    public int getScore(){
+        return this.score;
+    }
 }

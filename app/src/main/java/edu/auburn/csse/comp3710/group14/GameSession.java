@@ -4,40 +4,42 @@ package edu.auburn.csse.comp3710.group14;
  * Created by BenKnowles on 4/14/14.
  */
 
-import java.util.Date;
-
 public class GameSession {
-    private long id;
-    private Date startTime;
-    private Date endTime;
+    int id;
+    String startTime;
+    String endTime;
 
-    public long getId(){
-        return id;
+    public GameSession(){
     }
 
-    public void setId(long id){
+    public GameSession(int id){
         this.id = id;
     }
 
-    public Date getStartTime(){
-        return startTime;
+    //setters
+    public void setId(int id){
+        this.id = id;
     }
 
-    public void setStartTime(Date time){
-        startTime = time;
+    public void setStartTime(String startTime){
+        this.startTime = startTime;
     }
 
-    public Date getEndTime(){
-        return  endTime;
+    public void setEndTime(String endTime){
+        this.endTime = endTime;
     }
 
-    public void setEndTime(Date time){
-        endTime = time;
+    //getters
+    public long getId(){
+        return this.id;
     }
 
-    public String toString(){
-        return "GameSession " + id + "-- Started: " + startTime
-                + ", Ended: " + endTime;
+    public String getStartTime(){
+        return this.startTime;
+    }
+
+    public String getEndTime(){
+        return this.endTime;
     }
 
 

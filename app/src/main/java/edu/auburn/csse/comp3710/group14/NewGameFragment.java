@@ -24,7 +24,7 @@ public class NewGameFragment extends ListFragment {
         public void startGame();
     }
 
-    private ArrayList<Game> mGames;
+    private ArrayList<Player> mPlayers;
 
     private Button mAddGameButton;
     private Button mAddPlayerButton;
@@ -36,7 +36,8 @@ public class NewGameFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGames = new ArrayList<Game>();
+        // add real games later
+        mPlayers = new ArrayList<Player>();
     }
 
     @Override
@@ -78,9 +79,9 @@ public class NewGameFragment extends ListFragment {
         mPlayerSpinner = (Spinner) v.findViewById(R.id.player_spinner);
         // set spinner content
 
-        ArrayAdapter<Game> adapter = new ArrayAdapter<Game>(getActivity(),
+        ArrayAdapter<Player> adapter = new ArrayAdapter<Player>(getActivity(),
                 android.R.layout.simple_list_item_1,
-                mGames);
+                mPlayers);
 
         setListAdapter(adapter);
 

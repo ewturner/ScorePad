@@ -16,5 +16,6 @@
     <string name="player_name">Player Name</string>
     <string name="subtract">-</string>
     <string name="end_game">Game Over</string>
+    <string name="select_game">Select Game</string>
 
 </resources>

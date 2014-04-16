@@ -5,20 +5,26 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+
 /**
  * Created by eturner on 4/14/14.
  */
-public class NewGameFragment extends Fragment {
+public class NewGameFragment extends ListFragment {
     public interface NewGameHost {
         public void startGame();
     }
+
+    private ArrayList<Game> mGames;
 
     private Button mAddGameButton;
     private Button mAddPlayerButton;
@@ -66,8 +72,11 @@ public class NewGameFragment extends Fragment {
         mPlayerSpinner = (Spinner) v.findViewById(R.id.player_spinner);
         // set spinner content
 
-        mPlayerListView = (ListView) v.findViewById(R.id.player_listView);
-        // display player list
+        ArrayAdapter<Game> adapter = new ArrayAdapter<Game>(getActivity(),
+                android.R.layout.simple_list_item_1,
+                mGames);
+
+        setListAdapter(adapter);
 
         return v;
     }

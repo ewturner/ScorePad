@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by BenKnowles on 4/16/14.
@@ -423,8 +426,28 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //create/start a gamesession
     public long createGameSession(){
-        //NOT FINISHED
-        return 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_START_TIME, getDateTime());
+        values.putNull(COLUMN_END_TIME);
+
+        //insert row
+        long gamesession_id = db.insert(TABLE_GAMESESSION, null, values);
+
+        //return gamesession id
+        return gamesession_id;
+    }
+
+    public void startGameSession(Game game, ArrayList<Player> players){
+        long gamesession_id = createGameSession();
+        long game_id = game.getId();
+
+        createGameSessionGame(gamesession_id, game_id);
+
+        for(Player player : players){
+            addPlayerToGameSession(player.id, gamesession_id);
+        }
     }
 
     //get arraylist of all games
@@ -529,6 +552,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         } while (c.moveToNext());
 
         return players;
+    }
+
+    private String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
 }

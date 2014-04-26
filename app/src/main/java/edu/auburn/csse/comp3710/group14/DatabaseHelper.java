@@ -446,7 +446,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         createGameSessionGame(gamesession_id, game_id);
 
         for(Player player : players){
-            addPlayerToGameSession(player.id, gamesession_id);
+            addPlayerToGameSession(player.getId(), gamesession_id);
         }
     }
 

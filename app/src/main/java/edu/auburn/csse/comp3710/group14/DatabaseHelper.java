@@ -427,7 +427,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     //get arraylist of all games
-    public ArrayList<Game> getAllGamess(){
+    public ArrayList<Game> getAllGames(){
         SQLiteDatabase db = this.getReadableDatabase();
 
         ArrayList<Game> games = new ArrayList<Game>();
@@ -456,7 +456,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         ArrayList<Player> players = new ArrayList<Player>();
 
-
         String selectQuery = "SELECT  * FROM " + TABLE_PLAYER;
 
         Log.e(LOGCAT_TAG, selectQuery);
@@ -470,6 +469,63 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 Player player = getPlayerFromId(player_id);
                 players.add(player);
             } while (c.moveToNext());
+
+        return players;
+    }
+
+    public Score getScoreFromPlayerAndGameSessionId(long player_id, long gamesession_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR + " WHERE " +
+                COLUMN_GAMESESSION_ID + " = " + gamesession_id + " AND " + COLUMN_PLAYER_ID +
+                " = " + player_id;
+
+        Log.e(LOGCAT_TAG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Score playerScore = getScoreFromId(c.getColumnIndex(COLUMN_SCORE_ID));
+        return playerScore;
+    }
+
+    public Color getColorFromPlayerAndGameSessionId(long player_id, long gamesession_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR + " WHERE " +
+                COLUMN_GAMESESSION_ID + " = " + gamesession_id + " AND " + COLUMN_PLAYER_ID +
+                " = " + player_id;
+
+        Log.e(LOGCAT_TAG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Color playerColor = getColorFromId(c.getColumnIndex(COLUMN_COLOR_ID));
+        return playerColor;
+    }
+
+    public ArrayList<Player> getPlayersFromGameSessionId(long gamesession_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<Player> players = new ArrayList<Player>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR + " WHERE " +
+                COLUMN_GAMESESSION_ID + " = " + gamesession_id;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+        do{
+            long player_id = c.getInt(c.getColumnIndex(COLUMN_PLAYER_ID));
+            Player player = getPlayerFromId(player_id);
+            players.add(player);
+        } while (c.moveToNext());
 
         return players;
     }

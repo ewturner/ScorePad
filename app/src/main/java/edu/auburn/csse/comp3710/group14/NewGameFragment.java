@@ -1,9 +1,6 @@
 package edu.auburn.csse.comp3710.group14;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -24,7 +21,10 @@ public class NewGameFragment extends ListFragment {
         public void startGame();
     }
 
+    private DatabaseHelper dbHelper;
+
     private ArrayList<Player> mPlayers;
+    private ArrayList<Game> mGames;
 
     private Button mAddGameButton;
     private Button mAddPlayerButton;
@@ -36,9 +36,35 @@ public class NewGameFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbHelper = new DatabaseHelper(getActivity());
+
         // add real games later
-        mPlayers = new ArrayList<Player>();
+        mPlayers = dbHelper.getAllPlayers();
+        mGames = dbHelper.getAllGames();
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //Refresh lists
+        mPlayers = dbHelper.getAllPlayers();
+        mGames = dbHelper.getAllGames();
+
+        ArrayAdapter<Game> gameArrayAdapter = new ArrayAdapter<Game>(getActivity(),
+                android.R.layout.simple_spinner_item,
+                mGames);
+        gameArrayAdapter.notifyDataSetChanged();
+        mGameSpinner.setAdapter(gameArrayAdapter);
+
+        ArrayAdapter<Player> playerArrayAdapter = new ArrayAdapter<Player>(getActivity(),
+                android.R.layout.simple_spinner_item,
+                mPlayers);
+        playerArrayAdapter.notifyDataSetChanged();
+        mPlayerSpinner.setAdapter(playerArrayAdapter);
+
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -75,15 +101,18 @@ public class NewGameFragment extends ListFragment {
         });
 
         mGameSpinner = (Spinner) v.findViewById(R.id.game_spinner);
-        // set spinner content
+
         mPlayerSpinner = (Spinner) v.findViewById(R.id.player_spinner);
-        // set spinner content
 
-        ArrayAdapter<Player> adapter = new ArrayAdapter<Player>(getActivity(),
-                android.R.layout.simple_list_item_1,
+        ArrayAdapter<Game> gameArrayAdapter = new ArrayAdapter<Game>(getActivity(),
+                android.R.layout.simple_spinner_item,
+                mGames);
+        mGameSpinner.setAdapter(gameArrayAdapter);
+
+        ArrayAdapter<Player> playerArrayAdapter = new ArrayAdapter<Player>(getActivity(),
+                android.R.layout.simple_spinner_item,
                 mPlayers);
-
-        setListAdapter(adapter);
+        mPlayerSpinner.setAdapter(playerArrayAdapter);
 
         return v;
     }

@@ -82,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //scores table create statment
     public static final String CREATE_TABLE_SCORE = "CREATE TABLE " +
             TABLE_SCORE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
-            COLUMN_SCORE + " INTEGER";
+            COLUMN_SCORE + " INTEGER)";
 
     //colors table create statement
     public static final String CREATE_TABLE_COLOR = "CREATE TABLE " +
@@ -463,13 +463,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
-        do{
-            long game_id = c.getInt(c.getColumnIndex(COLUMN_ID));
-            Game game = getGameFromId(game_id);
-            games.add(game);
-        } while (c.moveToNext());
+        if (c != null && c.moveToFirst()) {
+            do {
+                long game_id = c.getInt(c.getColumnIndex(COLUMN_ID));
+                Game game = getGameFromId(game_id);
+                games.add(game);
+            } while (c.moveToNext());
+        }
+
+        c.close();
 
         return games;
     }
@@ -486,13 +488,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
-            do{
+        if (c != null && c.moveToFirst()) {
+            do {
                 long player_id = c.getInt(c.getColumnIndex(COLUMN_ID));
                 Player player = getPlayerFromId(player_id);
                 players.add(player);
             } while (c.moveToNext());
+        }
+
+        c.close();
 
         return players;
     }

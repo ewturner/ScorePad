@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by BenKnowles on 4/16/14.
  */
@@ -344,7 +346,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     //given a gamesession_id and a player_id, get the player's score
-    public Score getScoreFromGameSessionAndPlayerIds(long gamesession_id, long player_id){
+    public Score getScoreFromGameSessionAndPlayerId(long gamesession_id, long player_id){
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR + " WHERE "
@@ -388,5 +390,88 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 
     //add a player to a gamesession
+    public void addPlayerToGameSession(long player_id, long gamesession_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Score playerScore = new Score(0);
+        long score_id = createScore(playerScore);
+
+        //NOT FINISHED -- color_id = random color id from list
+        long color_id = 0;
+
+        createGameSessionPlayerScoreColor(gamesession_id, player_id, score_id, color_id);
+    }
+
+    //update a player's score
+    public int updatePlayerScore(long gamesession_id, long player_id, int amount){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        //NOT FINISHED
+        //get player's score id
+
+        //get player's score object
+
+        //update score object
+
+        //update in database
+
+        //return updated score
+        return 0;
+    }
+
+    //create/start a gamesession
+    public long createGameSession(){
+        //NOT FINISHED
+        return 0;
+    }
+
+    //get arraylist of all games
+    public ArrayList<Game> getAllGamess(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<Game> games = new ArrayList<Game>();
+
+
+        String selectQuery = "SELECT  * FROM " + TABLE_GAME;
+
+        Log.e(LOGCAT_TAG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+        do{
+            long game_id = c.getInt(c.getColumnIndex(COLUMN_ID));
+            Game game = getGameFromId(game_id);
+            games.add(game);
+        } while (c.moveToNext());
+
+        return games;
+    }
+
+    //get arraylist of all players
+    public ArrayList<Player> getAllPlayers(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<Player> players = new ArrayList<Player>();
+
+
+        String selectQuery = "SELECT  * FROM " + TABLE_PLAYER;
+
+        Log.e(LOGCAT_TAG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+            do{
+                long player_id = c.getInt(c.getColumnIndex(COLUMN_ID));
+                Player player = getPlayerFromId(player_id);
+                players.add(player);
+            } while (c.moveToNext());
+
+        return players;
+    }
 
 }

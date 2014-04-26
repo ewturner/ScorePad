@@ -406,18 +406,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public int updatePlayerScore(long gamesession_id, long player_id, int amount){
         SQLiteDatabase db = this.getWritableDatabase();
 
-
-        //NOT FINISHED
-        //get player's score id
-
         //get player's score object
+        Score playerScore = getScoreFromPlayerAndGameSessionId(player_id, gamesession_id);
 
         //update score object
+        int newScore = playerScore.updateScore(amount);
 
         //update in database
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SCORE, playerScore.getScore());
 
-        //return updated score
-        return 0;
+        // updating row
+        return db.update(TABLE_SCORE, values, COLUMN_ID + " = ?",
+                new String[] { String.valueOf(playerScore.getId()) });
     }
 
     //create/start a gamesession

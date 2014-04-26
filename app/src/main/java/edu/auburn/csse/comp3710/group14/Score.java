@@ -35,4 +35,9 @@ public class Score {
     public int getScore(){
         return this.score;
     }
+
+    public int updateScore(int amount){
+        this.score += amount;
+        return this.score;
+    }
 }

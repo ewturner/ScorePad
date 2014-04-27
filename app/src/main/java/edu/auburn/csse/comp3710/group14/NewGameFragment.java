@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -25,6 +28,7 @@ public class NewGameFragment extends ListFragment {
     private DatabaseHelper dbHelper;
 
     private ArrayList<Player> mPlayers;
+    private ArrayList<Player> mSelectedPlayers;
     private Game mGame;
 
     private int gameIndex;
@@ -44,8 +48,9 @@ public class NewGameFragment extends ListFragment {
         gameIndex = 0;
 
         // add real games later
-        mPlayers = new ArrayList<Player>();
+        //mPlayers = new ArrayList<Player>();
         mGame = new Game();
+        mSelectedPlayers = new ArrayList<Player>();
     }
 
     @Override
@@ -102,21 +107,8 @@ public class NewGameFragment extends ListFragment {
             }
         });
 
-        mPlayerSpinner = (Spinner) v.findViewById(R.id.player_spinner);
-        mPlayerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                mPlayers.add((Player)adapterView.getItemAtPosition(i));
-                refreshPlayerList();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-
+        PlayerSelectAdapter adapter = new PlayerSelectAdapter(dbHelper.getAllPlayers());
+        setListAdapter(adapter);
 
         populateSpinners();
 
@@ -130,11 +122,13 @@ public class NewGameFragment extends ListFragment {
         mGameSpinner.setAdapter(gameArrayAdapter);
         mGameSpinner.setSelection(gameIndex);
 
-        ArrayAdapter<Player> playerArrayAdapter = new ArrayAdapter<Player>(getActivity(),
-                android.R.layout.simple_spinner_item,
-                dbHelper.getAllPlayers());
-        playerArrayAdapter.notifyDataSetChanged();
-        mPlayerSpinner.setAdapter(playerArrayAdapter);
+//        ArrayAdapter<Player> playerArrayAdapter = new ArrayAdapter<Player>(getActivity(),
+//                android.R.layout.simple_spinner_item,
+//                dbHelper.getAllPlayers());
+//        playerArrayAdapter.notifyDataSetChanged();
+//        mPlayerSpinner.setAdapter(playerArrayAdapter);
+        PlayerSelectAdapter adapter = new PlayerSelectAdapter(dbHelper.getAllPlayers());
+        setListAdapter(adapter);
     }
 
     private void refreshPlayerList(){
@@ -142,5 +136,38 @@ public class NewGameFragment extends ListFragment {
                 android.R.layout.simple_list_item_1,
                 mPlayers);
         setListAdapter(adapter);
+    }
+
+    private class PlayerSelectAdapter extends ArrayAdapter<Player> {
+        public PlayerSelectAdapter(ArrayList<Player> players) {
+            super(getActivity(), 0, players);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = getActivity().getLayoutInflater()
+                        .inflate(R.layout.list_item_select_player, null);
+            }
+            // TODO: Will this work?
+            final Player p = getItem(position);
+
+            TextView playerNameTextView = (TextView) convertView.findViewById(R.id.select_player_textview);
+            playerNameTextView.setText(p.getName());
+
+            final CheckBox playerSelectedCheckBox = (CheckBox) convertView.findViewById(R.id.select_player_checkbox);
+            playerSelectedCheckBox.setChecked(false);
+            playerSelectedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (playerSelectedCheckBox.isChecked()) {
+                        mSelectedPlayers.add(p);
+                    } else {
+                        mSelectedPlayers.remove(p);
+                    }
+                }
+            });
+            return convertView;
+        }
     }
 }

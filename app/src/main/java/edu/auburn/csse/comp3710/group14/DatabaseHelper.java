@@ -82,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //scores table create statment
     public static final String CREATE_TABLE_SCORE = "CREATE TABLE " +
             TABLE_SCORE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
-            COLUMN_SCORE + " INTEGER";
+            COLUMN_SCORE + " INTEGER)";
 
     //colors table create statement
     public static final String CREATE_TABLE_COLOR = "CREATE TABLE " +
@@ -231,14 +231,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (c != null && c.moveToFirst()){
 
-        Color color = new Color();
-        color.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-        color.setColor((c.getInt(c.getColumnIndex(COLUMN_COLOR))));
+            Color color = new Color();
+            color.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+            color.setColor((c.getInt(c.getColumnIndex(COLUMN_COLOR))));
 
-        return color;
+            return color;
+        }
+        else
+            return new Color();
     }
 
     //given a player_id, return the player
@@ -252,14 +254,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (c != null && c.moveToFirst()) {
 
-        Player player = new Player();
-        player.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-        player.setName((c.getString(c.getColumnIndex(COLUMN_NAME))));
+            Player player = new Player();
+            player.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+            player.setName((c.getString(c.getColumnIndex(COLUMN_NAME))));
 
-        return player;
+            return player;
+        }
+        else
+            return new Player();
     }
 
     //given a score_id, return the score
@@ -273,14 +277,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (c != null && c.moveToFirst()) {
 
-        Score score = new Score();
-        score.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-        score.setScore((c.getInt(c.getColumnIndex(COLUMN_SCORE))));
+            Score score = new Score();
+            score.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+            score.setScore((c.getInt(c.getColumnIndex(COLUMN_SCORE))));
 
-        return score;
+            return score;
+        }
+        else
+            return new Score();
     }
 
     //given a game_id, return the game
@@ -294,14 +300,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (c != null && c.moveToFirst()) {
 
-        Game game = new Game();
-        game.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-        game.setName((c.getString(c.getColumnIndex(COLUMN_NAME))));
+            Game game = new Game();
+            game.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+            game.setName((c.getString(c.getColumnIndex(COLUMN_NAME))));
 
-        return game;
+            return game;
+        }
+        else
+            return new Game();
     }
 
     //given a gamesession_id, return the game
@@ -315,15 +323,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (c != null && c.moveToFirst()) {
 
-        GameSession gameSession = new GameSession();
-        gameSession.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-        gameSession.setStartTime((c.getString(c.getColumnIndex(COLUMN_START_TIME))));
-        gameSession.setEndTime((c.getString(c.getColumnIndex(COLUMN_END_TIME))));
+            GameSession gameSession = new GameSession();
+            gameSession.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+            gameSession.setStartTime((c.getString(c.getColumnIndex(COLUMN_START_TIME))));
+            gameSession.setEndTime((c.getString(c.getColumnIndex(COLUMN_END_TIME))));
 
-        return gameSession;
+            return gameSession;
+        }
+        else
+            return new GameSession();
     }
 
     //given a gamesession_id and a player_id, get the player's color
@@ -338,14 +348,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (c != null && c.moveToFirst()) {
 
-        long color_id = c.getInt(c.getColumnIndex(COLUMN_COLOR_ID));
+            long color_id = c.getInt(c.getColumnIndex(COLUMN_COLOR_ID));
 
-        Color color = getColorFromId(color_id);
+            Color color = getColorFromId(color_id);
 
-        return color;
+            return color;
+        }
+        else
+            return new Color();
     }
 
     //given a gamesession_id and a player_id, get the player's score
@@ -360,14 +372,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (c != null && c.moveToFirst()) {
 
-        long score_id = c.getInt(c.getColumnIndex(COLUMN_SCORE_ID));
+            long score_id = c.getInt(c.getColumnIndex(COLUMN_SCORE_ID));
 
-        Score score = getScoreFromId(score_id);
+            Score score = getScoreFromId(score_id);
 
-        return score;
+            return score;
+        }
+        else
+            return new Score();
     }
 
     //given a gamesession_id, get the game being played
@@ -381,14 +395,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (c != null && c.moveToFirst()) {
 
-        long game_id = c.getInt(c.getColumnIndex(COLUMN_GAME_ID));
+            long game_id = c.getInt(c.getColumnIndex(COLUMN_GAME_ID));
 
-        Game game = getGameFromId(game_id);
+            Game game = getGameFromId(game_id);
 
-        return game;
+            return game;
+        }
+        else
+            return new Game();
     }
 
 
@@ -463,13 +479,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
-        do{
-            long game_id = c.getInt(c.getColumnIndex(COLUMN_ID));
-            Game game = getGameFromId(game_id);
-            games.add(game);
-        } while (c.moveToNext());
+        if (c != null && c.moveToFirst()) {
+            do {
+                long game_id = c.getInt(c.getColumnIndex(COLUMN_ID));
+                Game game = getGameFromId(game_id);
+                games.add(game);
+            } while (c.moveToNext());
+        }
+
+        c.close();
 
         return games;
     }
@@ -486,13 +504,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
-            do{
+        if (c != null && c.moveToFirst()) {
+            do {
                 long player_id = c.getInt(c.getColumnIndex(COLUMN_ID));
                 Player player = getPlayerFromId(player_id);
                 players.add(player);
             } while (c.moveToNext());
+        }
+
+        c.close();
 
         return players;
     }
@@ -508,11 +528,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (c != null && c.moveToFirst()) {
 
-        Score playerScore = getScoreFromId(c.getColumnIndex(COLUMN_SCORE_ID));
-        return playerScore;
+            Score playerScore = getScoreFromId(c.getColumnIndex(COLUMN_SCORE_ID));
+            return playerScore;
+        }
+        else
+            return new Score();
     }
 
     public Color getColorFromPlayerAndGameSessionId(long player_id, long gamesession_id){
@@ -526,11 +548,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (c != null && c.moveToFirst()) {
 
-        Color playerColor = getColorFromId(c.getColumnIndex(COLUMN_COLOR_ID));
-        return playerColor;
+            Color playerColor = getColorFromId(c.getColumnIndex(COLUMN_COLOR_ID));
+            return playerColor;
+        }
+        else
+            return new Color();
     }
 
     public ArrayList<Player> getPlayersFromGameSessionId(long gamesession_id){
@@ -543,13 +567,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
-        do{
-            long player_id = c.getInt(c.getColumnIndex(COLUMN_PLAYER_ID));
-            Player player = getPlayerFromId(player_id);
-            players.add(player);
-        } while (c.moveToNext());
+        if (c != null && c.moveToFirst()) {
+            do {
+                long player_id = c.getInt(c.getColumnIndex(COLUMN_PLAYER_ID));
+                Player player = getPlayerFromId(player_id);
+                players.add(player);
+            } while (c.moveToNext());
+        }
 
         return players;
     }

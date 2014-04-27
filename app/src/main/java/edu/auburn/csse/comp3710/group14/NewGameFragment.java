@@ -9,6 +9,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -76,6 +77,12 @@ public class NewGameFragment extends ListFragment {
 
         mGameSpinner = (Spinner) v.findViewById(R.id.game_spinner);
         // set spinner content
+        mGameSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
         mPlayerSpinner = (Spinner) v.findViewById(R.id.player_spinner);
         // set spinner content
 

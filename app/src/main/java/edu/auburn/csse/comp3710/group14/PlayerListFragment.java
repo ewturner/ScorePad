@@ -15,8 +15,11 @@ import java.util.ArrayList;
  * Created by eturner on 4/14/14.
  */
 public class PlayerListFragment extends ListFragment {
+    public static final String EXTRA_GAME_SESSION_ID = "edu.auburn.csse.comp3710.group14.gameSessionId";
+
     private ArrayList<Player> mPlayers;
     private GameSession mGameSession;
+    private Game mGame;
 
     private Button mEndGameButton;
     private TextView mGameTitle;
@@ -24,9 +27,13 @@ public class PlayerListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+
+        long gameSessionId = getArguments().getLong(EXTRA_GAME_SESSION_ID);
         // CHANGE THIS TO ACTUAL PLAYERS
-        mPlayers = new ArrayList<Player>();
-        mGameSession = new GameSession();
+        mGameSession = dbHelper.getGameSessionFromId(gameSessionId);
+        mGame = dbHelper.getGameFromGameSessionId(gameSessionId);
+        mPlayers = dbHelper.getPlayersFromGameSessionId(gameSessionId);
     }
 
     @Override
@@ -35,7 +42,7 @@ public class PlayerListFragment extends ListFragment {
 
         mGameTitle = (TextView) v.findViewById(R.id.current_game_title);
         // Set text of title
-        mGameTitle.setText("");
+        mGameTitle.setText(mGame.getName());
 
         mEndGameButton = (Button) v.findViewById(R.id.end_game_button);
         mEndGameButton.setOnClickListener(new View.OnClickListener() {
@@ -51,33 +58,51 @@ public class PlayerListFragment extends ListFragment {
         return v;
     }
 
+    public static final PlayerListFragment newInstance(long gameSessionId) {
+        PlayerListFragment fragment = new PlayerListFragment();
+        Bundle bundle = new Bundle(1);
+        bundle.putLong(EXTRA_GAME_SESSION_ID, gameSessionId);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     private class PlayerAdapter extends ArrayAdapter<Player> {
+        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
         public PlayerAdapter(ArrayList<Player> players) {
             super(getActivity(), 0, players);
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater()
                         .inflate(R.layout.list_item_player, null);
             }
 
             Player p = getItem(position);
-            // placeholder
-            int color = 0;
 
             TextView playerColorTextView = (TextView) convertView.findViewById(R.id.player_color_swatch);
-            playerColorTextView.setBackgroundColor(0);
+            //Color playerColor = dbHelper.getPlayerColor(mGameSession.getId(), p.getId());
+            //playerColorTextView.setBackgroundColor(playerColor.getColor());
 
-            TextView playerNameTextView = (TextView) convertView.findViewById(R.id.player_name);
+            TextView playerNameTextView = (TextView) convertView.findViewById(R.id.list_player_name);
             playerNameTextView.setText(p.getName());
 
-            Score scoreTest = new Score(0);
-            TextView playerScoreTextView = (TextView) convertView.findViewById(R.id.current_player_score);
-            playerScoreTextView.setText(scoreTest.getScore());
-            // set score to player's color
-            playerScoreTextView.setBackgroundColor(0);
+            Score playerScore = dbHelper.getScoreFromPlayerAndGameSessionId(p.getId(),
+                    mGameSession.getId());
+            final TextView playerScoreTextView = (TextView) convertView.findViewById(R.id.current_player_score);
+            playerScoreTextView.setText(String.valueOf(playerScore.getScore()));
+
+            Button increaseScoreButton = (Button) convertView.findViewById(R.id.increase_player_score);
+            increaseScoreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Player player = mPlayers.get(position);
+                    dbHelper.updatePlayerScore(mGameSession.getId(), player.getId(), 1);
+                    Score newScore = dbHelper.getScoreFromPlayerAndGameSessionId(player.getId(), mGameSession.getId());
+                    playerScoreTextView.setText(String.valueOf(newScore.getScore()));
+                }
+            });
 
             return convertView;
         }

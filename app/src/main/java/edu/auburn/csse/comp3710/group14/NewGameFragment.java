@@ -1,5 +1,6 @@
 package edu.auburn.csse.comp3710.group14;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
@@ -22,8 +23,10 @@ import java.util.ArrayList;
  */
 public class NewGameFragment extends ListFragment {
     public interface NewGameHost {
-        public void startGame();
+        public void startGame(long gameSessionId);
     }
+
+    private NewGameHost mCallback;
 
     private DatabaseHelper dbHelper;
 
@@ -90,7 +93,20 @@ public class NewGameFragment extends ListFragment {
         mStartGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
 
+                //Create gamesessions entry
+                long gamesession_id = dbHelper.createGameSession();
+
+                //Create gamesession_games entry
+                dbHelper.createGameSessionGame(gamesession_id, mGame.getId());
+
+                //Create gamesession_player_score_colors entry
+                for (Player player : mSelectedPlayers) {
+                    dbHelper.addPlayerToGameSession(player.getId(), gamesession_id);
+                }
+
+                mCallback.startGame(gamesession_id);
             }
         });
 
@@ -99,6 +115,7 @@ public class NewGameFragment extends ListFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 gameIndex = i;
+                mGame = (Game) adapterView.getItemAtPosition(i);
             }
 
             @Override
@@ -107,12 +124,15 @@ public class NewGameFragment extends ListFragment {
             }
         });
 
-        PlayerSelectAdapter adapter = new PlayerSelectAdapter(dbHelper.getAllPlayers());
-        setListAdapter(adapter);
-
         populateSpinners();
 
         return v;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallback = (NewGameHost) activity;
     }
 
     private void populateSpinners(){
@@ -131,12 +151,12 @@ public class NewGameFragment extends ListFragment {
         setListAdapter(adapter);
     }
 
-    private void refreshPlayerList(){
-        ArrayAdapter<Player> adapter = new ArrayAdapter<Player>(getActivity(),
-                android.R.layout.simple_list_item_1,
-                mPlayers);
-        setListAdapter(adapter);
-    }
+//    private void refreshPlayerList(){
+//        ArrayAdapter<Player> adapter = new ArrayAdapter<Player>(getActivity(),
+//                android.R.layout.simple_list_item_1,
+//                mPlayers);
+//        setListAdapter(adapter);
+//    }
 
     private class PlayerSelectAdapter extends ArrayAdapter<Player> {
         public PlayerSelectAdapter(ArrayList<Player> players) {

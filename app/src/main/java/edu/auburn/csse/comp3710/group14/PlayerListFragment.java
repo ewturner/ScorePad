@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by eturner on 4/14/14.
@@ -37,10 +38,10 @@ public class PlayerListFragment extends ListFragment {
         DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
 
         long gameSessionId = getArguments().getLong(EXTRA_GAME_SESSION_ID);
-        // CHANGE THIS TO ACTUAL PLAYERS
         mGameSession = dbHelper.getGameSessionFromId(gameSessionId);
         mGame = dbHelper.getGameFromGameSessionId(gameSessionId);
         mPlayers = dbHelper.getPlayersFromGameSessionId(gameSessionId);
+        Collections.sort(mPlayers);
     }
 
     @Override

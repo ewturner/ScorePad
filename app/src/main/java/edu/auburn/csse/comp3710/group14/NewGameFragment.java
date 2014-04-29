@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by eturner on 4/14/14.
@@ -134,9 +135,11 @@ public class NewGameFragment extends ListFragment {
     }
 
     private void populateSpinners(){
+        ArrayList<Game> allGames = dbHelper.getAllGames();
+        Collections.sort(allGames);
         ArrayAdapter<Game> gameArrayAdapter = new ArrayAdapter<Game>(getActivity(),
                 android.R.layout.simple_spinner_item,
-                dbHelper.getAllGames());
+                allGames);
         mGameSpinner.setAdapter(gameArrayAdapter);
         mGameSpinner.setSelection(gameIndex);
 

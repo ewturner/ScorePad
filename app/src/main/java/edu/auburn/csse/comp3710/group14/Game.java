@@ -3,7 +3,7 @@ package edu.auburn.csse.comp3710.group14;
 /**
  * Created by BenKnowles on 4/14/14.
  */
-public class Game {
+public class Game implements Comparable<Game>{
     int id;
     String name;
 
@@ -37,6 +37,11 @@ public class Game {
     }
 
     public String toString() { return this.name; }
+
+    @Override
+    public int compareTo(Game other){
+        return this.getName().compareTo(other.getName());
+    }
 
 
 }

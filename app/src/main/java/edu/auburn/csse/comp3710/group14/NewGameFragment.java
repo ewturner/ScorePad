@@ -50,8 +50,6 @@ public class NewGameFragment extends ListFragment {
 
         gameIndex = 0;
 
-        // add real games later
-        //mPlayers = new ArrayList<Player>();
         mGame = new Game();
         mSelectedPlayers = new ArrayList<Player>();
     }
@@ -142,21 +140,9 @@ public class NewGameFragment extends ListFragment {
         mGameSpinner.setAdapter(gameArrayAdapter);
         mGameSpinner.setSelection(gameIndex);
 
-//        ArrayAdapter<Player> playerArrayAdapter = new ArrayAdapter<Player>(getActivity(),
-//                android.R.layout.simple_spinner_item,
-//                dbHelper.getAllPlayers());
-//        playerArrayAdapter.notifyDataSetChanged();
-//        mPlayerSpinner.setAdapter(playerArrayAdapter);
         PlayerSelectAdapter adapter = new PlayerSelectAdapter(dbHelper.getAllPlayers());
         setListAdapter(adapter);
     }
-
-//    private void refreshPlayerList(){
-//        ArrayAdapter<Player> adapter = new ArrayAdapter<Player>(getActivity(),
-//                android.R.layout.simple_list_item_1,
-//                mPlayers);
-//        setListAdapter(adapter);
-//    }
 
     private class PlayerSelectAdapter extends ArrayAdapter<Player> {
         public PlayerSelectAdapter(ArrayList<Player> players) {

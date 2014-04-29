@@ -505,7 +505,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ArrayList<GameSession> unfinishedGameSessions = new ArrayList<GameSession>();
 
         String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION + " WHERE " +
-                COLUMN_END_TIME + " IS NOT NULL";
+                COLUMN_END_TIME + " IS NULL";
 
         Log.e(LOGCAT_TAG, selectQuery);
 

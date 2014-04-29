@@ -19,8 +19,10 @@ public class ContinueGameFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+
         // get unfinished GameSessions
-        mGameSessions = new ArrayList<GameSession>();
+        mGameSessions = dbHelper.getAllUnfinishedGameSessions();
     }
 
     @Override

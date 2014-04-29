@@ -42,5 +42,9 @@ public class GameSession {
         return this.end_time;
     }
 
+    public String toString(){
+        return this.getStartTime();
+    }
+
 
 }

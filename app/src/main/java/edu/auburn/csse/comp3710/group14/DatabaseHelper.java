@@ -99,6 +99,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_TABLE_PLAYER);
         db.execSQL(CREATE_TABLE_SCORE);
         db.execSQL(CREATE_TABLE_GAMESESSION_PLAYER_SCORE);
+
+        //default data
+        db.execSQL("INSERT INTO "+TABLE_GAME+" VALUES(null, 'Baseball')");
+        db.execSQL("INSERT INTO "+TABLE_GAME+" VALUES(null, 'Basketball')");
+        db.execSQL("INSERT INTO "+TABLE_GAME+" VALUES(null, 'Disc Golf')");
+        db.execSQL("INSERT INTO "+TABLE_GAME+" VALUES(null, 'Dominoes')");
+        db.execSQL("INSERT INTO "+TABLE_GAME+" VALUES(null, 'Football')");
+        db.execSQL("INSERT INTO "+TABLE_GAME+" VALUES(null, 'Golf')");
+        db.execSQL("INSERT INTO "+TABLE_GAME+" VALUES(null, 'Scrabble')");
+
     }
 
     @Override

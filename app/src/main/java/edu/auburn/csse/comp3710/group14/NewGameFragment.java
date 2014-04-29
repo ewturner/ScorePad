@@ -155,7 +155,6 @@ public class NewGameFragment extends ListFragment {
                 convertView = getActivity().getLayoutInflater()
                         .inflate(R.layout.list_item_select_player, null);
             }
-            // TODO: Will this work?
             final Player p = getItem(position);
 
             TextView playerNameTextView = (TextView) convertView.findViewById(R.id.select_player_textview);

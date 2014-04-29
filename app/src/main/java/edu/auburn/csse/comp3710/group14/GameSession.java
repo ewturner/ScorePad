@@ -55,14 +55,13 @@ public class GameSession {
 
             date = formatter.parse(this.getStartTime());
             System.out.println(formatter.format(date));
-            return "Started " + formatter.format(date);
+
 
         } catch (ParseException e) {
             e.printStackTrace();
-            return "";
         }
 
-
+        return "Started " + formatter.format(date);
     }
 
 

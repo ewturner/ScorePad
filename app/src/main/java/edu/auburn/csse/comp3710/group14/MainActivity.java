@@ -64,6 +64,7 @@ public class MainActivity extends FragmentActivity implements MainMenuFragment.M
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = PlayerListFragment.newInstance(gameSessionId);
 
+        fm.popBackStack();
         fm.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)

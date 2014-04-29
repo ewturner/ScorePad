@@ -565,6 +565,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR + " WHERE " +
                 COLUMN_GAMESESSION_ID + " = " + gamesession_id;
 
+        Log.e(LOGCAT_TAG, selectQuery);
+
         Cursor c = db.rawQuery(selectQuery, null);
 
         if (c != null && c.moveToFirst()) {
@@ -594,6 +596,29 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         // updating row
         return db.update(TABLE_GAMESESSION, values, COLUMN_ID + " = ?",
                 new String[] { String.valueOf(gameSession.getId()) });
+    }
+
+    public ArrayList<GameSession> getAllUnfinishedGameSessions(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<GameSession> unfinishedGameSessions = new ArrayList<GameSession>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION + " WHERE " +
+                COLUMN_END_TIME + " IS NOT NULL";
+
+        Log.e(LOGCAT_TAG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null && c.moveToFirst()) {
+            do {
+                long gamesession_id = c.getInt(c.getColumnIndex(COLUMN_ID));
+                GameSession gameSession = getGameSessionFromId(gamesession_id);
+                unfinishedGameSessions.add(gameSession);
+            } while (c.moveToNext());
+        }
+
+        return unfinishedGameSessions;
     }
 
     private String getDateTime() {

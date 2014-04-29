@@ -530,7 +530,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         if (c != null && c.moveToFirst()) {
 
-            Score playerScore = getScoreFromId(c.getColumnIndex(COLUMN_SCORE_ID));
+            Score playerScore = getScoreFromId(c.getInt(c.getColumnIndex(COLUMN_SCORE_ID)));
             return playerScore;
         }
         else
@@ -550,7 +550,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         if (c != null && c.moveToFirst()) {
 
-            Color playerColor = getColorFromId(c.getColumnIndex(COLUMN_COLOR_ID));
+            Color playerColor = getColorFromId(c.getInt(c.getColumnIndex(COLUMN_COLOR_ID)));
             return playerColor;
         }
         else
@@ -576,6 +576,24 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
 
         return players;
+    }
+
+    public int endGame(long gamesession_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //get player's score object
+        GameSession gameSession = getGameSessionFromId(gamesession_id);
+
+        //update score object
+        gameSession.setEndTime(getDateTime());
+
+        //update in database
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_END_TIME, gameSession.getEndTime());
+
+        // updating row
+        return db.update(TABLE_GAMESESSION, values, COLUMN_ID + " = ?",
+                new String[] { String.valueOf(gameSession.getId()) });
     }
 
     private String getDateTime() {

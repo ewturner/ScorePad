@@ -176,7 +176,11 @@ public class NewGameFragment extends ListFragment {
             playerNameTextView.setText(p.getName());
 
             final CheckBox playerSelectedCheckBox = (CheckBox) convertView.findViewById(R.id.select_player_checkbox);
-            playerSelectedCheckBox.setChecked(false);
+            if (mSelectedPlayers.contains(p))
+                playerSelectedCheckBox.setChecked(true);
+            else
+                playerSelectedCheckBox.setChecked(false);
+
             playerSelectedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

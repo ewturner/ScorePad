@@ -1,5 +1,6 @@
 package edu.auburn.csse.comp3710.group14;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -15,7 +16,13 @@ import java.util.ArrayList;
  * Created by eturner on 4/14/14.
  */
 public class PlayerListFragment extends ListFragment {
+
+    public interface PlayerListHost {
+        public void endGame();
+    }
     public static final String EXTRA_GAME_SESSION_ID = "edu.auburn.csse.comp3710.group14.gameSessionId";
+
+    private PlayerListHost mCallback;
 
     private ArrayList<Player> mPlayers;
     private GameSession mGameSession;
@@ -48,7 +55,9 @@ public class PlayerListFragment extends ListFragment {
         mEndGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // End the Game
+                DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+                dbHelper.endGame(mGameSession.getId());
+                mCallback.endGame();
             }
         });
 
@@ -56,6 +65,12 @@ public class PlayerListFragment extends ListFragment {
         setListAdapter(adapter);
 
         return v;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallback = (PlayerListHost) activity;
     }
 
     public static final PlayerListFragment newInstance(long gameSessionId) {
@@ -90,21 +105,43 @@ public class PlayerListFragment extends ListFragment {
 
             Score playerScore = dbHelper.getScoreFromPlayerAndGameSessionId(p.getId(),
                     mGameSession.getId());
-            final TextView playerScoreTextView = (TextView) convertView.findViewById(R.id.current_player_score);
+            TextView playerScoreTextView = (TextView) convertView.findViewById(R.id.current_player_score);
             playerScoreTextView.setText(String.valueOf(playerScore.getScore()));
 
             Button increaseScoreButton = (Button) convertView.findViewById(R.id.increase_player_score);
-            increaseScoreButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Player player = mPlayers.get(position);
-                    dbHelper.updatePlayerScore(mGameSession.getId(), player.getId(), 1);
-                    Score newScore = dbHelper.getScoreFromPlayerAndGameSessionId(player.getId(), mGameSession.getId());
-                    playerScoreTextView.setText(String.valueOf(newScore.getScore()));
-                }
-            });
+            increaseScoreButton.setOnClickListener(new ScoreIncrementClickListener(position, true, playerScoreTextView));
+
+            Button decreaseScoreButton = (Button) convertView.findViewById(R.id.decrease_player_score);
+            decreaseScoreButton.setOnClickListener(new ScoreIncrementClickListener(position, false, playerScoreTextView));
 
             return convertView;
         }
+    }
+
+    private class ScoreIncrementClickListener implements View.OnClickListener {
+        private int position;
+        private boolean increase;
+        private TextView scoreText;
+
+        public ScoreIncrementClickListener(int position, boolean increase, TextView scoreText){
+            this.position = position;
+            this.increase = increase;
+            this.scoreText = scoreText;
+        }
+
+        @Override
+        public void onClick(View v){
+            DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+            Player player = mPlayers.get(position);
+            if (increase)
+                dbHelper.updatePlayerScore(mGameSession.getId(), player.getId(), 1);
+            else
+                dbHelper.updatePlayerScore(mGameSession.getId(), player.getId(), -1);
+            Score newScore = dbHelper.getScoreFromPlayerAndGameSessionId(player.getId(), mGameSession.getId());
+            scoreText.setText(String.valueOf(newScore.getScore()));
+
+            v.invalidate();
+        }
+
     }
 }

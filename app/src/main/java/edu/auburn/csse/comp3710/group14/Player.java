@@ -37,4 +37,15 @@ public class Player {
     }
 
     public String toString() { return this.name; }
+
+    public boolean equals(Object obj){
+        if(obj == null)
+            return false;
+        if(obj == this)
+            return true;
+        if(!(obj instanceof Player))
+            return false;
+
+        return (this.id == ((Player) obj).getId());
+    }
 }

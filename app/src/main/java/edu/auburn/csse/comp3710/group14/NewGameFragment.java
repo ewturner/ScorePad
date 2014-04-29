@@ -143,7 +143,10 @@ public class NewGameFragment extends ListFragment {
         mGameSpinner.setAdapter(gameArrayAdapter);
         mGameSpinner.setSelection(gameIndex);
 
-        PlayerSelectAdapter adapter = new PlayerSelectAdapter(dbHelper.getAllPlayers());
+
+        ArrayList<Player> players = dbHelper.getAllPlayers();
+        Collections.sort(players);
+        PlayerSelectAdapter adapter = new PlayerSelectAdapter(players);
         setListAdapter(adapter);
     }
 

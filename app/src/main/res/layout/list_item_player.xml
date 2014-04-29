@@ -13,14 +13,6 @@
         android:gravity="center"
         />
 
-    <TextView
-        android:id="@+id/player_color_swatch"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:minEms="3"
-        android:lines="1"
-        android:layout_alignEnd="@+id/list_player_name"/>
-
     <Button
         android:id="@+id/increase_player_score"
         android:layout_width="wrap_content"

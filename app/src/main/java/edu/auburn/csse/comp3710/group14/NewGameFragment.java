@@ -101,7 +101,7 @@ public class NewGameFragment extends ListFragment {
                 //Create gamesession_games entry
                 dbHelper.createGameSessionGame(gamesession_id, mGame.getId());
 
-                //Create gamesession_player_score_colors entry
+                //Create gamesession_player_scores entry
                 for (Player player : mSelectedPlayers) {
                     dbHelper.addPlayerToGameSession(player.getId(), gamesession_id);
                 }

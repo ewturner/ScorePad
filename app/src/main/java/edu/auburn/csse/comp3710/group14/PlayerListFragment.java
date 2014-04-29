@@ -96,10 +96,6 @@ public class PlayerListFragment extends ListFragment {
 
             Player p = getItem(position);
 
-            TextView playerColorTextView = (TextView) convertView.findViewById(R.id.player_color_swatch);
-            //Color playerColor = dbHelper.getPlayerColor(mGameSession.getId(), p.getId());
-            //playerColorTextView.setBackgroundColor(playerColor.getColor());
-
             TextView playerNameTextView = (TextView) convertView.findViewById(R.id.list_player_name);
             playerNameTextView.setText(p.getName());
 

@@ -31,8 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String TABLE_GAMESESSION_GAME = "gamesession_games";
     private static final String TABLE_PLAYER = "players";
     private static final String TABLE_SCORE = "scores";
-    private static final String TABLE_COLOR = "colors";
-    private static final String TABLE_GAMESESSION_PLAYER_SCORE_COLOR = "gamesession_player_score_colors";
+    private static final String TABLE_GAMESESSION_PLAYER_SCORE = "gamesession_player_scores";
 
     //Common column names
     private static final String COLUMN_ID = "id";
@@ -49,13 +48,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //SCORES table column names
     private static final String COLUMN_SCORE = "score";
 
-    //COLORS table column names
-    private static final String COLUMN_COLOR = "color";
-
-    //GAMESESSION_PLAYER_SCORE_COLORS table column names
+    //GAMESESSION_PLAYER_SCORE table column names
     private static final String COLUMN_PLAYER_ID = "player_id";
     private static final String COLUMN_SCORE_ID = "score_id";
-    private static final String COLUMN_COLOR_ID = "color_id";
 
 
     //Table creation
@@ -84,16 +79,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TABLE_SCORE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
             COLUMN_SCORE + " INTEGER)";
 
-    //colors table create statement
-    public static final String CREATE_TABLE_COLOR = "CREATE TABLE " +
-            TABLE_COLOR + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
-            COLUMN_COLOR + " INTEGER)";
-
-    //gamesession_player_score_colors table create statement
-    public static final String CREATE_TABLE_GAMESESSION_PLAYER_SCORE_COLOR = "CREATE TABLE " +
-            TABLE_GAMESESSION_PLAYER_SCORE_COLOR + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
+    //gamesession_player_score table create statement
+    public static final String CREATE_TABLE_GAMESESSION_PLAYER_SCORE = "CREATE TABLE " +
+            TABLE_GAMESESSION_PLAYER_SCORE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
             COLUMN_GAMESESSION_ID + " INTEGER," + COLUMN_PLAYER_ID + " INTEGER," +
-            COLUMN_SCORE_ID + " INTEGER," + COLUMN_COLOR_ID + " INTEGER)";
+            COLUMN_SCORE_ID + " INTEGER)";
 
 
     public DatabaseHelper(Context context){
@@ -108,8 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_TABLE_GAMESESSION_GAME);
         db.execSQL(CREATE_TABLE_PLAYER);
         db.execSQL(CREATE_TABLE_SCORE);
-        db.execSQL(CREATE_TABLE_COLOR);
-        db.execSQL(CREATE_TABLE_GAMESESSION_PLAYER_SCORE_COLOR);
+        db.execSQL(CREATE_TABLE_GAMESESSION_PLAYER_SCORE);
     }
 
     @Override
@@ -120,8 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAMESESSION_GAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCORE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLOR);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAMESESSION_PLAYER_SCORE);
 
         //create new tables
         onCreate(db);
@@ -141,20 +129,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         //return record id
         return game_id;
-    }
-
-    //create colors table entry
-    public long createColor(Color color){
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_COLOR, color.getColor());
-
-        //insert row
-        long color_id = db.insert(TABLE_COLOR, null, values);
-
-        //return record id
-        return color_id;
     }
 
     //create scores table entry
@@ -200,47 +174,21 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return gamesession_game_id;
     }
 
-    //create gamesession_player_score_colors table entry
-    public long createGameSessionPlayerScoreColor(long gamesession_id, long player_id,
-                                             long score_id, long color_id){
+    //create gamesession_player_scores table entry
+    public long createGameSessionPlayerScore(long gamesession_id, long player_id,
+                                             long score_id){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_GAMESESSION_ID, gamesession_id);
         values.put(COLUMN_PLAYER_ID, player_id);
         values.put(COLUMN_SCORE_ID, score_id);
-        values.put(COLUMN_COLOR_ID, color_id);
 
         //insert row
-        long gamesession_player_score_color_id = db.insert(TABLE_GAMESESSION_PLAYER_SCORE_COLOR, null, values);
+        long gamesession_player_score_id = db.insert(TABLE_GAMESESSION_PLAYER_SCORE, null, values);
 
         //return record id
-        return gamesession_player_score_color_id;
-    }
-
-
-    //GET TABLE ROWS
-    //given a color_id, return the color
-    public Color getColorFromId(long color_id){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String selectQuery = "SELECT  * FROM " + TABLE_COLOR + " WHERE "
-                + COLUMN_ID + " = " + color_id;
-
-        Log.e(LOGCAT_TAG, selectQuery);
-
-        Cursor c = db.rawQuery(selectQuery, null);
-
-        if (c != null && c.moveToFirst()){
-
-            Color color = new Color();
-            color.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-            color.setColor((c.getInt(c.getColumnIndex(COLUMN_COLOR))));
-
-            return color;
-        }
-        else
-            return new Color();
+        return gamesession_player_score_id;
     }
 
     //given a player_id, return the player
@@ -336,35 +284,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return new GameSession();
     }
 
-    //given a gamesession_id and a player_id, get the player's color
-    public Color getPlayerColor(long gamesession_id, long player_id){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR + " WHERE "
-                + COLUMN_GAMESESSION_ID + " = " + gamesession_id + " AND "
-                + COLUMN_PLAYER_ID + " = " + player_id;
-
-        Log.e(LOGCAT_TAG, selectQuery);
-
-        Cursor c = db.rawQuery(selectQuery, null);
-
-        if (c != null && c.moveToFirst()) {
-
-            long color_id = c.getInt(c.getColumnIndex(COLUMN_COLOR_ID));
-
-            Color color = getColorFromId(color_id);
-
-            return color;
-        }
-        else
-            return new Color();
-    }
-
     //given a gamesession_id and a player_id, get the player's score
     public Score getScoreFromGameSessionAndPlayerId(long gamesession_id, long player_id){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR + " WHERE "
+        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE + " WHERE "
                 + COLUMN_GAMESESSION_ID + " = " + gamesession_id + " AND "
                 + COLUMN_PLAYER_ID + " = " + player_id;
 
@@ -415,10 +339,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Score playerScore = new Score(0);
         long score_id = createScore(playerScore);
 
-        //NOT FINISHED -- color_id = random color id from list
-        long color_id = 0;
-
-        createGameSessionPlayerScoreColor(gamesession_id, player_id, score_id, color_id);
+        createGameSessionPlayerScore(gamesession_id, player_id, score_id);
     }
 
     //update a player's score
@@ -520,7 +441,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public Score getScoreFromPlayerAndGameSessionId(long player_id, long gamesession_id){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR + " WHERE " +
+        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE + " WHERE " +
                 COLUMN_GAMESESSION_ID + " = " + gamesession_id + " AND " + COLUMN_PLAYER_ID +
                 " = " + player_id;
 
@@ -537,32 +458,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return new Score();
     }
 
-    public Color getColorFromPlayerAndGameSessionId(long player_id, long gamesession_id){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR + " WHERE " +
-                COLUMN_GAMESESSION_ID + " = " + gamesession_id + " AND " + COLUMN_PLAYER_ID +
-                " = " + player_id;
-
-        Log.e(LOGCAT_TAG, selectQuery);
-
-        Cursor c = db.rawQuery(selectQuery, null);
-
-        if (c != null && c.moveToFirst()) {
-
-            Color playerColor = getColorFromId(c.getInt(c.getColumnIndex(COLUMN_COLOR_ID)));
-            return playerColor;
-        }
-        else
-            return new Color();
-    }
-
     public ArrayList<Player> getPlayersFromGameSessionId(long gamesession_id){
         SQLiteDatabase db = this.getReadableDatabase();
 
         ArrayList<Player> players = new ArrayList<Player>();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE_COLOR + " WHERE " +
+        String selectQuery = "SELECT  * FROM " + TABLE_GAMESESSION_PLAYER_SCORE + " WHERE " +
                 COLUMN_GAMESESSION_ID + " = " + gamesession_id;
 
         Log.e(LOGCAT_TAG, selectQuery);

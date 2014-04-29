@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentManager;
 
 
 public class MainActivity extends FragmentActivity implements MainMenuFragment.MainMenuHost,
-                                                              NewGameFragment.NewGameHost,
-                                                              PlayerListFragment.PlayerListHost {
+        NewGameFragment.NewGameHost, PlayerListFragment.PlayerListHost,
+        ContinueGameFragment.ContinueGameHost{
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,5 +81,16 @@ public class MainActivity extends FragmentActivity implements MainMenuFragment.M
                 .commit();
 
         fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    @Override
+    public void continueGame(long gamesession_id){
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = PlayerListFragment.newInstance(gamesession_id);
+
+        fm.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

@@ -1,5 +1,9 @@
 package edu.auburn.csse.comp3710.group14;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.ParseException;
+
 /**
  * Created by BenKnowles on 4/14/14.
  */
@@ -43,7 +47,22 @@ public class GameSession {
     }
 
     public String toString(){
-        return this.getStartTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy");
+
+        Date date = new Date();
+
+        try {
+
+            date = formatter.parse(this.getStartTime());
+            System.out.println(formatter.format(date));
+            return "Started " + formatter.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
+
+
     }
 
 

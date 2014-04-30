@@ -1,4 +1,4 @@
-package edu.auburn.csse.comp3710.group14;
+package edu.auburn.eng.csse.comp3710.team14;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import edu.auburn.csse.comp3710.group14.R;
 
 /**
  * Created by eturner on 4/14/14.
@@ -17,15 +19,12 @@ public class MainMenuFragment extends Fragment {
         public void createNewGame();
 
         public void continueGame();
-
-        public void viewHighScores();
     }
 
     private MainMenuHost mCallback;
 
     private Button mNewGameButton;
     private Button mContinueGameButton;
-    private Button mViewHighScoresButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,14 +48,6 @@ public class MainMenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mCallback.continueGame();
-            }
-        });
-
-        mViewHighScoresButton = (Button) v.findViewById(R.id.high_scores_button);
-        mViewHighScoresButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCallback.viewHighScores();
             }
         });
 

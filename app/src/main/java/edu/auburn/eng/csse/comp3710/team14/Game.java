@@ -1,19 +1,19 @@
-package edu.auburn.csse.comp3710.group14;
+package edu.auburn.eng.csse.comp3710.team14;
 
 /**
  * Created by BenKnowles on 4/14/14.
  */
-public class Player implements Comparable<Player>{
+public class Game implements Comparable<Game>{
     int id;
     String name;
 
-    public Player(){}
+    public Game(){}
 
-    public Player(String name){
+    public Game(String name){
         this.name = name;
     }
 
-    public Player(int id, String name){
+    public Game(int id, String name){
         this.id = id;
         this.name = name;
     }
@@ -28,7 +28,7 @@ public class Player implements Comparable<Player>{
     }
 
     //getters
-    public int getId(){
+    public long getId(){
         return this.id;
     }
 
@@ -38,19 +38,10 @@ public class Player implements Comparable<Player>{
 
     public String toString() { return this.name; }
 
-    public boolean equals(Object obj){
-        if(obj == null)
-            return false;
-        if(obj == this)
-            return true;
-        if(!(obj instanceof Player))
-            return false;
-
-        return (this.id == ((Player) obj).getId());
-    }
-
     @Override
-    public int compareTo(Player other){
+    public int compareTo(Game other){
         return this.getName().compareTo(other.getName());
     }
+
+
 }

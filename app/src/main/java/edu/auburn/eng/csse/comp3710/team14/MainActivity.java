@@ -1,9 +1,11 @@
-package edu.auburn.csse.comp3710.group14;
+package edu.auburn.eng.csse.comp3710.team14;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+
+import edu.auburn.csse.comp3710.group14.R;
 
 
 public class MainActivity extends FragmentActivity implements MainMenuFragment.MainMenuHost,
@@ -46,18 +48,6 @@ public class MainActivity extends FragmentActivity implements MainMenuFragment.M
                 .commit();
     }
 
-    @Override
-    public void viewHighScores() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = new HighScoresFragment();
-
-        fm.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
-
-    }
-
     // NewGameFragment.NewGameHost methods
     @Override
     public void startGame(long gameSessionId) {
@@ -78,6 +68,7 @@ public class MainActivity extends FragmentActivity implements MainMenuFragment.M
 
         fm.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
                 .commit();
 
         fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);

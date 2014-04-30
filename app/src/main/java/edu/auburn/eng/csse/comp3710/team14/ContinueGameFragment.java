@@ -1,4 +1,4 @@
-package edu.auburn.csse.comp3710.group14;
+package edu.auburn.eng.csse.comp3710.team14;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import edu.auburn.csse.comp3710.group14.R;
 
 /**
  * Created by eturner on 4/16/14.

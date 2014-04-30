@@ -1,4 +1,4 @@
-package edu.auburn.csse.comp3710.group14;
+package edu.auburn.eng.csse.comp3710.team14;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,40 +9,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import edu.auburn.csse.comp3710.group14.R;
+
 /**
  * Created by eturner on 4/14/14.
  */
-public class NewPlayerDialogFragment extends DialogFragment {
+public class NewGameDialogFragment extends DialogFragment {
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         final LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 
-        final View layout = layoutInflater.inflate(R.layout.dialog_add_player, null);
+        final View layout = layoutInflater.inflate(R.layout.dialog_add_game, null);
         builder.setView(layout)
-                .setPositiveButton(R.string.add_player, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.add_game, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // Add the player
+                        // Add the game
                         DatabaseHelper dbHelp = new DatabaseHelper(layoutInflater.getContext());
 
-                        EditText playerInput = (EditText)layout.findViewById(R.id.player_name);
+                        EditText gameInput = (EditText)layout.findViewById(R.id.game_name);
 
-                        String playerName = playerInput.getText().toString();
+                        String gameName = gameInput.getText().toString();
 
-                        if(playerName != "" && playerName != null){
-                            Player newPlayer = new Player(playerName);
-                            dbHelp.createPlayer(newPlayer);
+                        if(gameName != "" && gameName != null){
+                            Game newGame = new Game(gameName);
+                            dbHelp.createGame(newGame);
 
                             getActivity().startActivityForResult(getActivity().getIntent(), 10);
                         }
+
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        NewPlayerDialogFragment.this.getDialog().cancel();
+                        NewGameDialogFragment.this.getDialog().cancel();
                     }
                 });
         return builder.create();
